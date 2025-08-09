@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+_path=${1#*//}
+_repo=${_path##*/}
+_path=${_path%/*}
+_repo=${_repo%.*}
+if [[ ! -d $HOME/git/$_path/$_repo ]]; then
+    mkdir -p $HOME/git/$_path && git clone $1 $HOME/git/$_path/$_repo
+else
+    echo "Folder already exists!"
+fi
+read -p "Open project in IDE ? " -n 1 -r
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    idea "$HOME/git/$_path/$_repo"
+fi
